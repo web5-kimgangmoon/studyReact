@@ -1,37 +1,48 @@
-import { Component, ReactNode } from "react";
+import { Component, ReactNode, MouseEventHandler } from "react";
 
 export interface IModal {
   isOpen: boolean;
 }
 
 interface IState {
-  isOpen: IModal;
+
 }
 
 interface IProps {
   content: string;
-  toggle(idx: number): void;
+  isOpen: boolean;
+  modalOn(): void;
+  closeModal(): void;
 }
 
 class Modal extends Component<IProps, IState> {
+  constructor(props: IProps) {
+    super(props);
+    this.setState({ isOpen: false });
+  }
+
   componentDidMount() {
-    console.log(this.props);
+  }
+  modalOn = (): void => {
+    this.props.modalOn();
   }
   render(): ReactNode {
     // 전처리기, 변수를 이용하면 실행순서 때문에 커스터마이징이 작동하지 않는다.
     // const width = 3;
     // const height = 3;
+    const style = "absolute top-[calc(50%-1.5rem)] right-[calc(50%-1.5rem)] bg-white";
     return (
       <div className="">
         <div>
-          <button type="button" className="button">
+          <button type="button" className="button" onClick={this.modalOn}>
             버튼
           </button>
         </div>
-        <div className={`absolute top-[calc(50%-1.5rem)]`}>
-          {this.props.content}
-        </div>
+        {/* <div className={? style + " z-20" : style}> */}
+        <div><span>{this.props.content}</span></div>
+        <div><button>X</button></div>
       </div>
+      // </div >
     );
   }
 }
